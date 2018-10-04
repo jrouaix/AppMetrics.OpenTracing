@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>$(StandardTest)</TargetFrameworks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\App.Metrics.OpenTracing\App.Metrics.OpenTracing.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="FluentAssertions" Version="5.4.2" />
+    <PackageReference Update="FluentAssertions.Json" Version="5.0.0" />
+    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="15.8.0" />
+    <PackageReference Update="Moq" Version="4.10.0" />
+    <PackageReference Update="xunit" Version="2.4.0" />
+    <PackageReference Update="xunit.runner.visualstudio" Version="2.4.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+</Project>

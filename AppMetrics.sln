@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26906.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2D805782-756E-4C98-B22E-F502BEE95318}"
+	ProjectSection(SolutionItems) = preProject
+		src\Directory.Build.props = src\Directory.Build.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{DD2E4647-7125-4CE3-9BA5-B45A26113A31}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Metrics.OpenTracing", "src\App.Metrics.OpenTracing\App.Metrics.OpenTracing.csproj", "{E85DE507-0159-4E73-8C13-0B5879262DF6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Metrics.OpenTracing.Facts", "test\App.Metrics.OpenTracing.Facts\App.Metrics.OpenTracing.Facts.csproj", "{5DF287B2-D88D-4D21-8C8E-7A743BBA0901}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E85DE507-0159-4E73-8C13-0B5879262DF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E85DE507-0159-4E73-8C13-0B5879262DF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E85DE507-0159-4E73-8C13-0B5879262DF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E85DE507-0159-4E73-8C13-0B5879262DF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DF287B2-D88D-4D21-8C8E-7A743BBA0901}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DF287B2-D88D-4D21-8C8E-7A743BBA0901}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DF287B2-D88D-4D21-8C8E-7A743BBA0901}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DF287B2-D88D-4D21-8C8E-7A743BBA0901}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E85DE507-0159-4E73-8C13-0B5879262DF6} = {2D805782-756E-4C98-B22E-F502BEE95318}
+		{5DF287B2-D88D-4D21-8C8E-7A743BBA0901} = {DD2E4647-7125-4CE3-9BA5-B45A26113A31}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A8699A1D-0BA1-403C-86E9-C789CD2645EB}
+	EndGlobalSection
+EndGlobal

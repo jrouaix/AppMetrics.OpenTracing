@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>App Metrics is an open-source .NET Standard library used to record application metrics.</Description>
+    <TargetFrameworks>netstandard1.6</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);net452</TargetFrameworks>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageTags>appmetrics;metrics;apdex;meter;gauge;counter;timer;histogram;open tracing;tracing</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="App.Metrics.Core" Version="2.1.0" />
+    <PackageReference Include="OpenTracing.Contrib.Decorators" Version="0.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+  </ItemGroup>
+  
+</Project>
