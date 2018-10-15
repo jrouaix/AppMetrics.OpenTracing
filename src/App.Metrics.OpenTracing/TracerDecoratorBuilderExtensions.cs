@@ -3,26 +3,55 @@
 // </copyright>
 using App.Metrics.Counter;
 using OpenTracing.Contrib.Decorators;
+using System;
 
 namespace App.Metrics.OpenTracing
 {
     public static class TracerDecoratorBuilderExtensions
     {
-        public static TracerDecoratorBuilder  WithAppMetrics(this TracerDecoratorBuilder builder, IMetrics metrics)
-        {
-            builder.OnSpanStarted((span, operationName) =>
-            {
-                var counter = new CounterOptions { Name = operationName };
-                metrics.Measure.Counter.Increment(counter);
-            });
+        public static TracerDecoratorBuilder WithAppMetrics(this TracerDecoratorBuilder builder, IMetrics metrics, bool allEnabled = true, Action<OpenTracingAppMetricsDecoratorOptions> setupOptions = null)
+            => WithAppMetrics(builder, metrics, allEnabled ? OpenTracingAppMetricsDecoratorOptions.AllEnabled : OpenTracingAppMetricsDecoratorOptions.AllDisabled, setupOptions ?? (opts => { }));
 
-            builder.OnSpanFinished((span, operationName) =>
+        public static TracerDecoratorBuilder WithAppMetrics(this TracerDecoratorBuilder builder, IMetrics metrics, OpenTracingAppMetricsDecoratorOptions options)
+            => WithAppMetrics(builder, metrics, options, opts => { });
+
+        private static TracerDecoratorBuilder WithAppMetrics(this TracerDecoratorBuilder builder, IMetrics metrics, OpenTracingAppMetricsDecoratorOptions options, Action<OpenTracingAppMetricsDecoratorOptions> setupOptions)
+        {
+            options = options ?? throw new ArgumentNullException(nameof(options));
+            setupOptions?.Invoke(options);
+
+            if (options.SpansCounters)
             {
-                var counter = new CounterOptions { Name = operationName };
-                metrics.Measure.Counter.Decrement(counter);
-            });
-            
-            return builder; 
+                var spansCounter = new CounterOptions
+                {
+                    Name = options.SpansCounterName
+                };
+
+
+                builder.OnSpanStarted((span, operationName) =>
+                {
+                    metrics.Measure.Counter.Increment(spansCounter, operationName);
+
+                    if (options.DistinctOperationsCounters)
+                    {
+                        var distinctCounter = new CounterOptions { Name = options.DistinctOperationCounterName + operationName };
+                        metrics.Measure.Counter.Increment(distinctCounter);
+                    }
+                });
+
+                builder.OnSpanFinished((span, operationName) =>
+                {
+                    metrics.Measure.Counter.Decrement(spansCounter, operationName);
+
+                    if (options.DistinctOperationsCounters)
+                    {
+                        var distinctCounter = new CounterOptions { Name = options.DistinctOperationCounterName + operationName };
+                        metrics.Measure.Counter.Decrement(distinctCounter);
+                    }
+                });
+            }
+
+            return builder;
         }
     }
 }

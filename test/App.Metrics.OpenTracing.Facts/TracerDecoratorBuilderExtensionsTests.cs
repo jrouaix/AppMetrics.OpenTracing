@@ -33,6 +33,8 @@ namespace App.Metrics.OpenTracing.Facts
         [Fact]
         public void ShouldCounterSpan()
         {
+            var options = OpenTracingAppMetricsDecoratorOptions.Default;
+
             var tracer = new TracerDecoratorBuilder(new MockTracer())
                 .WithAppMetrics(_metrics)
                 .Build();
@@ -41,13 +43,32 @@ namespace App.Metrics.OpenTracing.Facts
             {
                 var snap = _metrics.Snapshot.Get();
                 var counter = snap.Contexts.Single().Counters.Single();
-                counter.Name.Should().Be("Operation");
+                counter.Name.Should().Be(options.SpansCounterName);
                 counter.Value.Count.Should().Be(1);
+                counter.Value.Items.Single().Item.Should().Equals("Operation");
+                counter.Value.Items.Single().Count.Should().Equals(1);
+                counter.Value.Items.Single().Percent.Should().Equals(100D);
             }
+
+            using (tracer.BuildSpan("ParentSpan").StartActive())
+            using (tracer.BuildSpan("Childspan").StartActive())
             {
                 var snap = _metrics.Snapshot.Get();
                 var counter = snap.Contexts.Single().Counters.Single();
-                counter.Name.Should().Be("Operation");
+                counter.Name.Should().Be(options.SpansCounterName);
+                counter.Value.Count.Should().Be(2);
+                counter.Value.Items.First().Item.Should().Equals("ParentSpan");
+                counter.Value.Items.First().Count.Should().Equals(1);
+                counter.Value.Items.First().Percent.Should().Equals(50D);
+                counter.Value.Items.Last().Item.Should().Equals("Childspan");
+                counter.Value.Items.Last().Count.Should().Equals(1);
+                counter.Value.Items.Last().Percent.Should().Equals(50D);
+            }
+
+            {
+                var snap = _metrics.Snapshot.Get();
+                var counter = snap.Contexts.Single().Counters.Single();
+                counter.Name.Should().Be(options.SpansCounterName);
                 counter.Value.Count.Should().Be(0);
             }
         }
