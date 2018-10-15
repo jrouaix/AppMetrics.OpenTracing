@@ -14,7 +14,10 @@ namespace App.Metrics.OpenTracing
             {
                 return new OpenTracingAppMetricsDecoratorOptions
                 {
-
+                    SpansCountersEnabled = true,
+                    DistinctOperationsCountersEnabled = true,
+                    SpansMetersEnabled = true,
+                    DistinctOperationsMetersEnabled = true,
                 };
             }
         }
@@ -25,16 +28,24 @@ namespace App.Metrics.OpenTracing
             {
                 return new OpenTracingAppMetricsDecoratorOptions
                 {
-
+                    SpansCountersEnabled = false,
+                    DistinctOperationsCountersEnabled = false,
+                    SpansMetersEnabled = false,
+                    DistinctOperationsMetersEnabled = false,
                 };
             }
         }
 
-        public bool SpansCounters { get; set; } = true;
+        public bool SpansCountersEnabled { get; set; } = true;
         public string SpansCounterName { get; set; } = "OpenTracing current spans";
-        public bool DistinctOperationsCounters { get; set; } = false;
-        public string DistinctOperationCounterName { get; set; } = "OpenTracing current operation - ";
+        public bool DistinctOperationsCountersEnabled { get; set; } = false;
+        public string DistinctOperationCountersName { get; set; } = "OpenTracing current operation - ";
 
+
+        public bool SpansMetersEnabled { get; set; } = true;
+        public string SpansMeterName { get; set; } = "OpenTracing spans";
+        public bool DistinctOperationsMetersEnabled { get; set; } = false;
+        public string DistinctOperationMetersName { get; set; } = "OpenTracing operation - ";
 
 
     }

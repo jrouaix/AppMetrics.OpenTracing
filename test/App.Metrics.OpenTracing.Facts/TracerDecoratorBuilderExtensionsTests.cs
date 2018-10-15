@@ -36,7 +36,7 @@ namespace App.Metrics.OpenTracing.Facts
             var options = OpenTracingAppMetricsDecoratorOptions.Default;
 
             var tracer = new TracerDecoratorBuilder(new MockTracer())
-                .WithAppMetrics(_metrics)
+                .WithAppMetrics(_metrics, options)
                 .Build();
 
             using (tracer.BuildSpan("Operation").StartActive())
