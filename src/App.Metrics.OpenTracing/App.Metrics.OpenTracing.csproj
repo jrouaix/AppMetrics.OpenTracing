@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="App.Metrics.Core" Version="2.1.0" />
-    <PackageReference Include="OpenTracing.Contrib.Decorators" Version="0.0.1" />
+    <PackageReference Include="OpenTracing.Contrib.Decorators" Version="0.0.2" />
   </ItemGroup>
 
   <ItemGroup>

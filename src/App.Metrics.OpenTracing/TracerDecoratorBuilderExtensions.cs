@@ -3,6 +3,7 @@
 // </copyright>
 using App.Metrics.Counter;
 using App.Metrics.Meter;
+using App.Metrics.Timer;
 using OpenTracing.Contrib.Decorators;
 using System;
 
@@ -62,11 +63,44 @@ namespace App.Metrics.OpenTracing
                 {
                     metrics.Measure.Meter.Mark(spansMeter, operationName);
 
-                    if (options.DistinctOperationsCountersEnabled)
+                    if (options.DistinctOperationsMetersEnabled)
                     {
                         var distinctMeter = new MeterOptions { Name = options.DistinctOperationMetersName + operationName };
                         metrics.Measure.Meter.Mark(distinctMeter);
                     }
+                });
+            }
+
+            if (options.SpansTimersEnabled)
+            {
+                var spansTimer = new TimerOptions
+                {
+                    Name = options.SpansTimerName,
+                    DurationUnit = TimeUnit.Milliseconds,
+                    RateUnit = TimeUnit.Milliseconds
+                };
+
+                builder.OnSpanStartedWithCallback((span, operationName) =>
+                {
+                    var timerContext = metrics.Measure.Timer.Time(spansTimer, operationName);
+
+                    TimerContext distinctTimerContext = default(TimerContext);
+                    if (options.DistinctOperationsTimersEnabled)
+                    {
+                        var distinctTimer = new TimerOptions
+                        {
+                            Name = options.DistinctOperationTimersName + operationName,
+                            DurationUnit = TimeUnit.Milliseconds,
+                            RateUnit = TimeUnit.Milliseconds
+                        };
+                        distinctTimerContext = metrics.Measure.Timer.Time(distinctTimer);
+                    }
+
+                    return (sp, op) =>
+                    {
+                        timerContext.Dispose();
+                        distinctTimerContext.Dispose();
+                    };
                 });
             }
 

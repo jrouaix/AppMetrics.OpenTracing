@@ -18,6 +18,8 @@ namespace App.Metrics.OpenTracing
                     DistinctOperationsCountersEnabled = true,
                     SpansMetersEnabled = true,
                     DistinctOperationsMetersEnabled = true,
+                    SpansTimersEnabled = true,
+                    DistinctOperationsTimersEnabled = true,
                 };
             }
         }
@@ -32,6 +34,8 @@ namespace App.Metrics.OpenTracing
                     DistinctOperationsCountersEnabled = false,
                     SpansMetersEnabled = false,
                     DistinctOperationsMetersEnabled = false,
+                    SpansTimersEnabled = false,
+                    DistinctOperationsTimersEnabled = false,
                 };
             }
         }
@@ -47,6 +51,10 @@ namespace App.Metrics.OpenTracing
         public bool DistinctOperationsMetersEnabled { get; set; } = false;
         public string DistinctOperationMetersName { get; set; } = "OpenTracing operation - ";
 
+        public bool SpansTimersEnabled { get; set; } = true;
+        public string SpansTimerName { get; set; } = "OpenTracing spans";
+        public bool DistinctOperationsTimersEnabled { get; set; } = false;
+        public string DistinctOperationTimersName { get; set; } = "OpenTracing operation - ";
 
     }
 }
